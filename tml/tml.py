@@ -8,8 +8,9 @@
     :copyright: 2010-2011 by the TML Team, see AUTHORS for more details.
     :license: GNU GPL, see LICENSE for more details.
 """
-from constants import *
-from datafile import DataFileReader, DataFileWriter
+from .constants import *
+from .datafile import DataFileReader, DataFileWriter
+
 
 class MapError(BaseException):
     """Raised when your map is not a valid teeworlds map.
@@ -18,8 +19,10 @@ class MapError(BaseException):
 
     """
 
+
 class LayerError(MapError):
     pass
+
 
 class Teemap(object):
     """Representation of a teeworlds map.
@@ -30,15 +33,15 @@ class Teemap(object):
     """
 
     def __init__(self, map_path=None):
-        self.name = ''
+        self.name = ""
 
         if map_path:
             self._load(map_path)
         else:
             # default item types
             for type_ in ITEM_TYPES:
-                if type_ not in ('version', 'layer', 'info'):
-                    setattr(self, ''.join([type_, 's']), [])
+                if type_ not in ("version", "layer", "info"):
+                    setattr(self, "".join([type_, "s"]), [])
             self.info = None
 
     @property
@@ -63,9 +66,9 @@ class Teemap(object):
                 gamelayer = layer
                 i += 1
         if i < 1:
-            raise MapError('There is no gamelayer')
+            raise MapError("There is no gamelayer")
         elif i > 1:
-            raise MapError('There is more than one gamelayer')
+            raise MapError("There is more than one gamelayer")
         return gamelayer
 
     @property
@@ -98,18 +101,19 @@ class Teemap(object):
         """
         gamelayers = 0
         for layer in self.layers:
-            if layer.type == 'tilelayer':
+            if layer.type == "tilelayer":
                 if len(layer.tiles) != layer.width * layer.height:
-                    raise LayerError('Layer width and height does not fit to '
-                                     'the number of tiles')
+                    raise LayerError(
+                        "Layer width and height does not fit to " "the number of tiles"
+                    )
             if layer.is_gamelayer:
                 gamelayers += 1
         if gamelayers < 1:
-            raise MapError('This map contains no gamelayer.')
+            raise MapError("This map contains no gamelayer.")
         if gamelayers > 1:
-            raise MapError('This map contains {0} gamelayers.'.format(gamelayers))
+            raise MapError("This map contains {0} gamelayers.".format(gamelayers))
         if len(self.gamelayer.tiles) == 0:
-            raise MapError('The gamelayer does not contain any tiles')
+            raise MapError("The gamelayer does not contain any tiles")
 
         return True
 
@@ -151,4 +155,4 @@ class Teemap(object):
         game_group.layers.append(game_layer)
 
     def __repr__(self):
-        return '<Teemap ({0})>'.format(self.name or 'new')
+        return "<Teemap ({0})>".format(self.name or "new")

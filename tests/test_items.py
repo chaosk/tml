@@ -2,11 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from items import Layer, TileLayer, TileManager, Tile, QuadLayer, QuadManager, \
-     Quad
+from tml.items import Layer, TileLayer, TileManager, Tile, QuadLayer, QuadManager, Quad
+
 
 class TestTileLayer(unittest.TestCase):
-
     def setUp(self):
         self.layer = TileLayer()
         tile = Tile(1)
@@ -26,10 +25,10 @@ class TestTileLayer(unittest.TestCase):
         layer = TileLayer()
         self.assertEqual(layer.width, 50)
         self.assertEqual(layer.height, 50)
-        layer = TileLayer(100, 200, 'Tee')
+        layer = TileLayer(100, 200, "Tee")
         self.assertEqual(layer.width, 100)
         self.assertEqual(layer.height, 200)
-        self.assertEqual(layer.name, 'Tee')
+        self.assertEqual(layer.name, "Tee")
         self.assertEqual(len(layer.tiles), 20000)
         self.assertEqual(layer.game, 0)
         self.assertEqual(layer.color_env, -1)
@@ -39,11 +38,9 @@ class TestTileLayer(unittest.TestCase):
 
     def test_get_tile(self):
         for i in range(5):
-            self.assertEqual(self.layer.get_tile(40 + i, 0),
-                             self.layer.tiles[40 + i])
+            self.assertEqual(self.layer.get_tile(40 + i, 0), self.layer.tiles[40 + i])
         for i in range(10):
-            self.assertEqual(self.layer.get_tile(40 + i, 4),
-                             self.layer.tiles[240 + i])
+            self.assertEqual(self.layer.get_tile(40 + i, 4), self.layer.tiles[240 + i])
         self.assertRaises(ValueError, self.layer.get_tile, 50, 49)
         self.assertRaises(ValueError, self.layer.get_tile, -1, 49)
         self.assertRaises(ValueError, self.layer.get_tile, 49, 50)
@@ -164,33 +161,32 @@ class TestTileLayer(unittest.TestCase):
         self.assertEqual(self.layer.get_tile(49, 48).index, 10)
         self.assertEqual(self.layer.get_tile(49, 49).index, 0)
 
-class TestTileManager(unittest.TestCase):
 
+class TestTileManager(unittest.TestCase):
     def test_init(self):
         pass
 
-class TestQuadLayer(unittest.TestCase):
 
+class TestQuadLayer(unittest.TestCase):
     def test_init(self):
         layer = QuadLayer()
-        self.assertEqual(layer.name, 'Quads')
+        self.assertEqual(layer.name, "Quads")
         self.assertEqual(layer.image_id, -1)
         self.assertEqual(len(layer.quads), 0)
         self.assertTrue(isinstance(layer.quads, QuadManager))
-        self.assertEqual(QuadLayer('TeeWar').name, 'TeeWar')
+        self.assertEqual(QuadLayer("TeeWar").name, "TeeWar")
+
 
 class TestQuadManager(unittest.TestCase):
-
     def setUp(self):
-        self.manager = QuadManager([Quad() for i in xrange(10)])
+        self.manager = QuadManager([Quad() for i in range(10)])
 
     def test_init(self):
         manager = QuadManager()
         self.assertEqual(len(manager), 0)
 
-        quads = [Quad() for i in xrange(10)]
-        quad = Quad(pos_env=1, pos_env_offset=2, color_env=3,
-                          color_env_offset=4)
+        quads = [Quad() for i in range(10)]
+        quad = Quad(pos_env=1, pos_env_offset=2, color_env=3, color_env_offset=4)
         quads.append(quad)
         manager = QuadManager(quads)
         self.assertEqual(len(manager), 11)
@@ -223,5 +219,6 @@ class TestQuadManager(unittest.TestCase):
         quad = self.manager.pop(-1)
         self.assertEqual(quad, orig_quad)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
