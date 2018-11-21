@@ -93,7 +93,7 @@ class DataFileReader(object):
                 if credits > -1:
                     credits = decompress(self.get_compressed_data(f, credits))[:-1]
                 if license > -1:
-                    license = decompress(self.get_compressed_data(f, licsense))[:-1]
+                    license = decompress(self.get_compressed_data(f, license))[:-1]
                 if settings > -1:
                     settings = decompress(self.get_compressed_data(f, settings)).split(
                         b"\x00"
